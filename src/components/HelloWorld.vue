@@ -1,38 +1,83 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://github.com/vuejs/vue-cli/tree/dev/docs" target="_blank">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
+    <h1>{{ title }}</h1>
+    <input type="text" placeholder="name" v-model="name">
+    <input type="text" placeholder="age" v-model="age">
+    <input type="text" placeholder="status" v-model="status">
+    <input type="submit" @click="addItem" />
     <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank">babel</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org/en/essentials/getting-started.html" target="_blank">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org/en/intro.html" target="_blank">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
+      <li v-for="(item, index) in items" :key="index">
+        <input type="text" v-model="item.name" />
+        <input type="text" v-model="item.age" /> 
+        <input type="text" v-model="item.status" />
+        <button @click="removeItem(index)">Remove</button>
+        <button @click="editItem(index, item)">Edit</button>
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
+import database from '../firebase'
+
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+
+  created() {
+    this.RENDER_ITEMS(this.items)
+  },
+
+  data() {
+    return {
+      name: '',
+      age: '',
+      status: ''
+    }
+  },
+
+  computed: {
+    ...mapState([
+      'title',
+      'items'
+    ])
+  },
+
+  methods: {
+    ...mapMutations([
+      'RENDER_ITEMS',
+      'ADD_ITEM',
+      'REMOVE_ITEM',
+      'EDIT_ITEM'
+    ]),
+
+    addItem() {
+      const item = {
+        name: this.name,
+        age: this.age,
+        status: this.status
+      }
+
+      this.ADD_ITEM(item)
+
+      this.name = ''
+      this.age = ''
+      this.status = ''
+    },
+
+    removeItem(index) {
+      this.REMOVE_ITEM(index)
+    },
+
+    editItem(index, item) {
+      const payload = {
+        name: item.name,
+        age: item.age,
+        status: item.status
+      }
+      
+      this.EDIT_ITEM({ key: index, value: payload })
+    }
   }
 }
 </script>
