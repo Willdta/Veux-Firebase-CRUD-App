@@ -30,6 +30,7 @@
 
 <script>
   import { mapMutations, mapState } from 'vuex'
+  import { auth } from '../firebase'
   import _ from 'lodash'
   
   export default {
@@ -44,14 +45,14 @@
         'REMOVE_ALL'
       ]),
 
-      editItem(index, item) {
+      editItem(index, { name, age, status }) {
         const payload = {
-          name: item.name,
-          age: item.age,
-          status: item.status
+          name, 
+          age, 
+          status
         }
 
-        this.EDIT_ITEM({ key: index, value: payload })
+        this.EDIT_ITEM({ user: auth.currentUser.uid, index, payload })
       },
 
       toggleEdit(item) {
@@ -64,7 +65,7 @@
 
       removeItem(item, index) {
         if (item.toggleCheck) {
-          this.REMOVE_ITEM(index)
+          this.REMOVE_ITEM({ user: auth.currentUser.uid, index })
         }
       },
 
@@ -72,7 +73,7 @@
         const completeCheck = _.map(this.items, item => item.toggleCheck)
 
         if (completeCheck.every(item => item === true)) {
-          this.REMOVE_ALL()
+          this.REMOVE_ALL(auth.currentUser.uid)
         } 
       },
 

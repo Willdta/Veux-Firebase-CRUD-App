@@ -7,30 +7,31 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     title: 'Vuex with Firebase',
-    items: []
+    items: [],
+    user: null
   },
 
   mutations: {
-    RENDER_ITEMS(state) {
-      database.ref('items').on('value', snapshot => {
+    RENDER_ITEMS(state, user) {
+      database.ref(`users/${user}/items`).on('value', snapshot => {
         state.items = snapshot.val()
       })
     },
 
     ADD_ITEM(state, payload) {
-      database.ref('items').push(payload)
-    },
-    
-    REMOVE_ITEM(state, index) {
-      database.ref(`items/${index}`).remove()
+      database.ref(`users/${payload.user}/items`).push(payload.payload)
     },
 
-    REMOVE_ALL(state) {
-      database.ref('items').remove()
+    REMOVE_ITEM(state, payload) {
+      database.ref(`users/${payload.user}/items/${payload.index}`).remove()
+    },
+
+    REMOVE_ALL(state, payload) {
+      database.ref(`users/${payload}/items`).remove()
     },
 
     EDIT_ITEM(state, payload) {
-      database.ref(`items/${payload.key}`).set(payload.value)
+      database.ref(`users/${payload.user}/items/${payload.index}`).set(payload.payload)
     }
   }
 })

@@ -9,6 +9,7 @@
 
 <script>
   import { mapMutations } from 'vuex'
+  import { auth } from '../firebase'
 
   export default {
     name: 'inputfields',
@@ -37,7 +38,7 @@
           toggleCheck: this.toggleCheck
         }
 
-        this.ADD_ITEM(payload)
+        this.ADD_ITEM({ user: auth.currentUser.uid, payload })
 
         this.name = ''
         this.age = ''

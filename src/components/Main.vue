@@ -13,6 +13,7 @@
   import InputFields from './InputFields'
   import ListItems from './ListItems'
   import Logout from './Logout'
+  import { auth } from '../firebase'
 
   export default {
     name: 'mainview',
@@ -25,7 +26,9 @@
     },
 
     mounted() {
-      this.RENDER_ITEMS(this.items)
+      this.RENDER_ITEMS(auth.currentUser.uid)
+      console.log(auth.currentUser.uid)
+      
     },
 
     computed: {
