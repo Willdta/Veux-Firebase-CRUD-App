@@ -22,12 +22,15 @@
           <button @click="removeItem(index)">Remove</button>
         </div>
       </li>
-    </ul>  
+    </ul>
+    <button @click="checkAll()">Check All</button>  
+    <button @click="removeAll()">Remove All</button>  
   </div>  
 </template>
 
 <script>
   import { mapMutations, mapState } from 'vuex'
+  import _ from 'lodash'
   
   export default {
     name: 'listitems',
@@ -63,6 +66,18 @@
         if (item.toggleCheck) {
           this.REMOVE_ITEM(index)
         }
+      },
+
+      removeAll() {
+        const completeCheck = _.map(this.items, item => item.toggleCheck)
+
+        if (completeCheck.every(item => item === true)) {
+          this.REMOVE_ALL()
+        } 
+      },
+
+      checkAll() {
+        _.each(this.items, item => item.toggleCheck = true)
       }
     }
   }
