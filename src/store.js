@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import database from './firebase'
-import _ from 'lodash'
+import { database } from './firebase'
 
 Vue.use(Vuex)
 

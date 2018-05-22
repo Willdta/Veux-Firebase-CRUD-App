@@ -1,5 +1,6 @@
 <template>
   <div id="mainview">
+    <Logout />
     <AppTitle :title="title" />
     <InputFields />
     <ListItems :items="items" />
@@ -11,6 +12,7 @@
   import AppTitle from './AppTitle'
   import InputFields from './InputFields'
   import ListItems from './ListItems'
+  import Logout from './Logout'
 
   export default {
     name: 'mainview',
@@ -18,7 +20,8 @@
     components: {
       AppTitle,
       InputFields,
-      ListItems
+      ListItems,
+      Logout
     },
 
     mounted() {
