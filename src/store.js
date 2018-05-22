@@ -26,12 +26,12 @@ export default new Vuex.Store({
       database.ref(`items/${index}`).remove()
     },
 
+    REMOVE_ALL(state) {
+      database.ref('items').remove()
+    },
+
     EDIT_ITEM(state, payload) {
       database.ref(`items/${payload.key}`).set(payload.value)
     }
-  },
-
-  // actions: {
-
-  // }
+  }
 })

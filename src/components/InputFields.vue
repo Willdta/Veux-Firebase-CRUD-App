@@ -17,7 +17,9 @@
       return {
         name: '',
         age: '',
-        status: ''
+        status: '',
+        toggleEdit: false,
+        toggleCheck: false
       }
     },
 
@@ -30,7 +32,9 @@
         let payload = {
           name: this.name,
           age: this.age,
-          status: this.status
+          status: this.status,
+          toggleEdit: this.toggleEdit,
+          toggleCheck: this.toggleCheck
         }
 
         this.ADD_ITEM(payload)
