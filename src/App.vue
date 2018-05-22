@@ -2,19 +2,12 @@
   <div id="app">
     <img src="./assets/logo.png">
     <router-view></router-view>
-    <!-- <Main /> -->
   </div>
 </template>
 
 <script>
-  // import Main from './components/Main'
-
   export default {
-    name: 'app',
-
-    // components: {
-    //   Main
-    // }
+    name: 'app'
   }
 </script>
 
